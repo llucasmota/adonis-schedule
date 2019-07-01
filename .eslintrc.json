@@ -5,13 +5,15 @@
     "node": true
   },
   "extends": ["standard"],
+  "plugins": ["standard", "promise", "node"],
   "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly",
+    "Atomics": "writable",
+    "SharedArrayBuffer": "writable",
     "use": true
   },
   "parserOptions": {
     "ecmaVersion": 2018
   },
+
   "rules": {}
 }
