@@ -34,6 +34,9 @@ class UserController {
     if (!data.confirm_pass) {
       return response.status(400).send({ message: { error: 'A confirmação de senha não foi informada' } })
     }
+    if (data.confirm_pass !== data.password_new) {
+      return response.status(401).send({ error: { message: 'A senha e a confirmação de senha não são iguais ' } })
+    }
   }
 }
 
