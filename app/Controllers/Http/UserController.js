@@ -11,32 +11,26 @@ class UserController {
 
     return user
   }
-  // async update ({ request, response, auth }) {
-  //   try {
-  //     const username = request.only(['username'])
-  //     const user = await User.findByOrFail('username', auth.user.username)
-  //     user.username = username
-  //     user.merge(username)
-  //     await user.save()
 
-  //     return response.status(204).send(user)
-  //   } catch (err) {
-  //     return response.status(err.status).send({ error: { message: 'Algo não deu certo' } })
-  //   }
-  // }
   async update ({ request, response, auth: { user } }) {
-    const data = request.only(['username', 'password_new', 'confirm_pass', 'password_old'])
+    const data = request.only(['username', 'password', 'confirm_pass', 'password_old'])
     // verificando se a senha antiga informada é a mesma que está persistida
-    const isSame = await Hash.verify(data.password_old, user.password)
-    if (!isSame) {
-      return response.status(401).send({ message: { error: 'A senha antiga não é válida' } })
+    if (data.password_old) {
+      const isTruePass = await Hash.verify(data.password_old, user.password)
+
+      if (!isTruePass) {
+        return response.status(400).send({ error: { message: 'Senha antiga não confere' } })
+      }
+      if (data.confirm_pass !== data.password) {
+        return response.status(400).send({ error: { message: 'A senha nova e sua confirmação não confereem' } })
+      }
+
+      delete data.password_old
+      delete data.confirm_pass
     }
-    if (!data.confirm_pass) {
-      return response.status(400).send({ message: { error: 'A confirmação de senha não foi informada' } })
-    }
-    if (data.confirm_pass !== data.password_new) {
-      return response.status(401).send({ error: { message: 'A senha e a confirmação de senha não são iguais ' } })
-    }
+    user.merge(data)
+    await user.save()
+    return user
   }
 }
 
