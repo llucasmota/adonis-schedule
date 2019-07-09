@@ -6,9 +6,15 @@ const Schema = use('Schema')
 class EventSchema extends Schema {
   up () {
     this.create('events', (table) => {
-      table.string('titulo').notNullable()
-      table.timestamp().notNullable()
       table.increments()
+      table.integer('user_id')
+        .unsigned()
+        .references('id')
+        .inTable('users')
+        .onUpdate('CASCADE')
+        .onDelete('SET NULL')
+      table.string('title', 50).notNullable()
+      table.timestamp('event_date').notNullable()
       table.timestamps()
     })
   }

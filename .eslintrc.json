@@ -5,7 +5,7 @@
     "node": true
   },
   "extends": ["standard"],
-  "plugins": ["import", "standard", "promise", "node"],
+  "plugins": ["import", "standard", "promise"],
   "globals": {
     "Atomics": "writable",
     "SharedArrayBuffer": "writable",
@@ -15,6 +15,5 @@
     "ecmaVersion": 2018
   },
 
-  "rules": {},
-  "settings": { "commonjs": true }
+  "rules": {}
 }
