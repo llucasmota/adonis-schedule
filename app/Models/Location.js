@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class Location extends Model {
+  event () {
+    return this.belongsTo('App/Models/Event')
+  }
 }
 
 module.exports = Location
