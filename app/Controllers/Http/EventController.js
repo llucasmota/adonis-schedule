@@ -11,6 +11,16 @@ class EventController {
 
   async store ({ request, response, auth }) {
     const data = request.only(['title', 'event_date', 'location'])
+    const findEvent = await Event.findByOrFail(
+      {
+        'user_id': auth.user.id,
+        'event_date': data.event_date
+      }
+    )
+    if (findEvent) {
+      return response.status(401).send({ erro: {
+        message: 'Já existe um evento com essa data', event: findEvent } })
+    }
     const trx = await Database.beginTransaction()
 
     const event = new Event()
