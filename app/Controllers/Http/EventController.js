@@ -6,11 +6,12 @@ const Database = use('Database')
 
 class EventController {
   async index ({ request, response, view, auth }) {
+    const { date } = request.get()
     try {
-      const events = await Event.findByOrFail('user_id', auth.user.id)
-      return events
+      const event = Event.findByOrFail({ 'event_date': date })
+      return event
     } catch (err) {
-      return response.status(401).send({ erro: { message: 'Não há registros' } })
+      return response.status(401).send({ error: { message: 'Algo deu errado' } })
     }
   }
 
@@ -48,6 +49,7 @@ class EventController {
   }
 
   async show ({ params, request, response, view }) {
+
   }
 
   async update ({ params, request, response }) {

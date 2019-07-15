@@ -5,7 +5,7 @@ const Model = use('Model')
 
 class Event extends Model {
   location () {
-    return this.hasOne('App/Model/Location')
+    return this.belongsTo('App/Model/Location')
   }
   user () {
     return this.belongsTo('App/Models/User')
