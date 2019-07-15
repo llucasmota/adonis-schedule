@@ -7,12 +7,12 @@ const Database = use('Database')
 class EventController {
   async index ({ request, response, view, auth }) {
     const { date } = request.get()
-    try {
-      const event = Event.findByOrFail({ 'event_date': date })
+
+    const event = await Event.findBy({ 'event_date': date })
+    if (event) {
       return event
-    } catch (err) {
-      return response.status(401).send({ error: { message: 'Algo deu errado' } })
     }
+    return response.status(204).send()
   }
 
   async store ({ request, response, auth }) {
