@@ -56,6 +56,8 @@ class EventController {
   }
 
   async destroy ({ params, request, response }) {
+    const event = await Event.findOrFail(params.id)
+    await event.delete()
   }
 }
 
