@@ -5,13 +5,18 @@ const Location = use('App/Models/Location')
 const Database = use('Database')
 
 class EventController {
-  async index ({ request, response, view }) {
-
+  async index ({ request, response, view, auth }) {
+    try {
+      const events = await Event.findByOrFail('user_id', auth.user.id)
+      return events
+    } catch (err) {
+      return response.status(401).send({ erro: { message: 'Não há registros' } })
+    }
   }
 
   async store ({ request, response, auth }) {
     const data = request.only(['title', 'event_date', 'location'])
-    const findEvent = await Event.findByOrFail(
+    const findEvent = await Event.findBy(
       {
         'user_id': auth.user.id,
         'event_date': data.event_date
@@ -37,7 +42,9 @@ class EventController {
 
     trx.commit()
 
-    return { event, location }
+    event.location = location
+
+    return event
   }
 
   async show ({ params, request, response, view }) {
