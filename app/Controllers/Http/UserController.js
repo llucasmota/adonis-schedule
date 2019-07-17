@@ -4,7 +4,7 @@ const User = use('App/Models/User')
 const Hash = use('Hash')
 
 class UserController {
-  async store ({ request }) {
+  async store ({ request, response }) {
     const data = request.only(['username', 'email', 'password'])
 
     const user = await User.create(data)
