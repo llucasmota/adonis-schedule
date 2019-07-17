@@ -6,7 +6,10 @@ const Hash = use('Hash')
 class UserController {
   async store ({ request, response }) {
     const data = request.only(['username', 'email', 'password'])
-
+    const findUser = await User.findBy('username', data.username)
+    if (findUser) {
+      return response.status(401).send({ error: { message: 'Algo deu errado' } })
+    }
     const user = await User.create(data)
 
     return user
