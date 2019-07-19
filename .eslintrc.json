@@ -5,7 +5,7 @@
     "node": true
   },
   "extends": ["standard"],
-  "plugins": ["standard", "promise"],
+  "plugins": ["standard", "promise", "node"],
   "globals": {
     "Atomics": "writable",
     "SharedArrayBuffer": "writable",

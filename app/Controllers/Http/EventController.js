@@ -39,10 +39,19 @@ class EventController {
 
   async update ({ params, request, response, auth }) {
     const event = await Event.findOrFail(params.id)
+
     if (event.user_id !== auth.user.id) {
-      return response.status(401).send({ error: { message: 'Apenas o criado poderá alterar' } })
+      return response.status(401).send({ error: { message: 'Apenas o usuário criador pode editar' } })
     }
-    const data = request.only(['title', 'event_date', 'address', 'postal_code'])
+    try {
+      const data = request.only(['title', 'event_date', 'address', 'postal_code'])
+      event.merge(data)
+      await event.save()
+
+      return event
+    } catch (err) {
+      return response.status(401).send({ error: { message: 'Algo está errado' } })
+    }
   }
 
   async destroy ({ params, request, response }) {
