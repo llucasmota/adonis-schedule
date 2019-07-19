@@ -1,8 +1,7 @@
 'use strict'
 
 const Event = use('App/Models/Event')
-
-const Database = use('Database')
+const moment = require('moment')
 
 class EventController {
   async index ({ request, response, view, auth }) {
@@ -43,8 +42,22 @@ class EventController {
     if (event.user_id !== auth.user.id) {
       return response.status(401).send({ error: { message: 'Apenas o usuário criador pode editar' } })
     }
+    /**
+     * Verifica se o evento recuperado é passado
+     */
+    const trueDate = moment().isAfter(event.event_date)
+    if (trueDate) {
+      return response.status(401).send({ error: { message: 'Este é um evento passado e não pode ser alterado' } })
+    }
+    const data = request.only(['title', 'event_date', 'address', 'postal_code'])
+    /**
+     * Verifica se há um evento repetido para o cliente que está tentando atualizar
+     */
+    const dateEqual = await Event.findBy({ 'user_id': auth.user.id, 'event_date': data.event_date })
+    if (dateEqual) {
+      return response.status(401).send({ error: { message: 'Existe um evento com essa mesma data pra voce' } })
+    }
     try {
-      const data = request.only(['title', 'event_date', 'address', 'postal_code'])
       event.merge(data)
       await event.save()
 
