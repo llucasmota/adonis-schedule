@@ -7,7 +7,7 @@ class EventController {
   async index ({ request, response, view, auth }) {
     const { date } = request.get()
 
-    const event = await Event.findBy({ 'event_date': date })
+    const event = await Event.findBy({ event_date: date })
     if (event) {
       return event
     }
@@ -22,7 +22,7 @@ class EventController {
       return response.status(401).send({ erro: {
         message: 'Já existe um evento com essa data', event: findEvent } })
     }
-    const event = Event.create({ ...data, 'user_id': auth.user.id })
+    const event = Event.create({ ...data, user_id: auth.user.id })
 
     return event
   }
@@ -53,7 +53,7 @@ class EventController {
     /**
      * Verifica se há um evento repetido para o cliente que está tentando atualizar
      */
-    const dateEqual = await Event.findBy({ 'user_id': auth.user.id, 'event_date': data.event_date })
+    const dateEqual = await Event.findBy({ user_id: auth.user.id, event_date: data.event_date })
     if (dateEqual) {
       return response.status(401).send({ error: { message: 'Existe um evento com essa mesma data pra voce' } })
     }
