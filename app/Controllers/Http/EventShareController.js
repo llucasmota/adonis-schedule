@@ -2,6 +2,7 @@
 
 const Event = use('App/Models/Event')
 const moment = require('moment')
+const Mail = use('Mail')
 
 class EventShareController {
   async share ({ request, response, auth }) {
