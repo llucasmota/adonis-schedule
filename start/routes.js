@@ -12,4 +12,4 @@ Route.get('events', 'EventController.index').middleware(['auth'])
 Route.get('/events/:id', 'EventController.show').middleware(['auth'])
 Route.delete('/events/:id', 'EventController.destroy').middleware(['auth'])
 
-Route.post('/events/share/', 'EventShareController.share').middleware(['auth'])
+Route.post('/events/share/:id', 'EventShareController.share').middleware(['auth'])
