@@ -10,8 +10,6 @@ class EventShareController {
   async share ({ request, response, auth, params }) {
     const data = request.only(['email'])
 
-    const user = await User.findOrFail(auth.user.id)
-    console.log(user)
     const event = await Event.findOrFail(params.id)
     // console.log(event)
 

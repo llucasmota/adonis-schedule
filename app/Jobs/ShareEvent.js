@@ -15,7 +15,7 @@ class ShareEvent {
 
   // This is where the work is done.
   async handle ({ toMail, fromMail, event }) {
-    await Mail.send(['email.share_mail'], { event, toMail, fromMail }, message => {
+    await Mail.send(['email.share_mail_event'], { event, toMail, fromMail }, message => {
       message
         .to(toMail)
         .from('lucas@rocketseat.com', 'Rocketseat')
