@@ -32,8 +32,8 @@ module.exports = {
   |
   */
   local: {
-    host: Env.get('REDIS_HOST'),
-    port: Env.get('REDIS_PORT'),
+    host: '127.0.0.1',
+    port: '6379',
     password: null,
     db: 0,
     keyPrefix: ''

@@ -18,7 +18,7 @@ class ShareEvent {
     await Mail.send(['email.share_mail_event'], { event, toMail, fromMail }, message => {
       message
         .to(toMail)
-        .from('lucas@rocketseat.com', 'Rocketseat')
+        .from(fromMail, 'Rocketseat')
         .subject(`Evento: ${event.title}`)
     })
   }
