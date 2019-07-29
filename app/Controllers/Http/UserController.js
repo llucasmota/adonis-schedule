@@ -10,9 +10,12 @@ class UserController {
     if (findUser) {
       return response.status(401).send({ error: { message: 'Algo deu errado' } })
     }
-    const user = await User.create(data)
-
-    return user
+    try {
+      const user = await User.create(data)
+      return user
+    } catch (err) {
+      return response.status(err.status).send({ error: { message: 'Algo deu errado' } })
+    }
   }
 
   async update ({ request, response, auth: { user } }) {

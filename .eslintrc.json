@@ -5,6 +5,7 @@
     "node": true
   },
   "extends": ["standard"],
+  "plugins": ["standard"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly",
